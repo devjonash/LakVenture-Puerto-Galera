@@ -442,3 +442,106 @@ html, body { max-width: 100%; overflow-x: clip; }
   #itinerary-print-root .reveal{opacity:1!important;transform:none!important;animation:none!important}
 }
 
+
+
+/* Photo credits: editorial-style image grid inspired by the supplied reference. */
+.photo-credits-section{background:linear-gradient(180deg,#f1f8f5 0%,#fbfcf8 100%);position:relative;overflow:hidden;padding:84px 0 68px}
+.photo-credits-section:before,.photo-credits-section:after{content:"";position:absolute;pointer-events:none;width:320px;height:100px;border-radius:50%;background:rgba(91,190,183,.09);filter:blur(1px)}
+.photo-credits-section:before{top:12px;left:-125px;transform:rotate(-10deg)}
+.photo-credits-section:after{right:-135px;bottom:10px;transform:rotate(10deg)}
+.photo-credits-wrap{position:relative;z-index:1}
+.photo-credits-heading{max-width:760px;margin:0 auto 38px;text-align:center}
+.photo-credits-heading .eyebrow{justify-content:center}
+.photo-credits-heading h2{font-size:clamp(40px,5vw,62px);margin-bottom:12px;color:var(--ocean)}
+.photo-credits-heading h2 em{color:var(--teal-dark)}
+.photo-credits-heading>p:last-child{font-size:13px;line-height:1.8;color:var(--muted);max-width:680px;margin:0 auto}
+.photo-credit-group{margin:0 0 32px}
+.photo-credit-group-title{display:flex;align-items:center;gap:10px;margin:0 0 13px;color:var(--ocean);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:800}
+.photo-credit-group-title span{color:var(--teal-dark);font-size:22px;line-height:1}
+.photo-credit-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.photo-credit-card{min-width:0;overflow:hidden;border-radius:15px;background:#fff;border:1px solid rgba(7,59,76,.08);box-shadow:0 8px 24px rgba(7,59,76,.07);transition:transform .25s ease,box-shadow .25s ease}
+.photo-credit-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(7,59,76,.13)}
+.photo-credit-card__image{height:150px;position:relative;overflow:hidden;background:#dcece7}
+.photo-credit-card__image>img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+.photo-credit-card:hover .photo-credit-card__image>img{transform:scale(1.045)}
+.photo-credit-card__overlay{position:absolute;left:0;right:0;bottom:0;min-height:49px;display:flex;align-items:center;gap:9px;padding:9px 10px;color:#fff;background:linear-gradient(0deg,rgba(2,34,44,.94),rgba(2,34,44,.70));}
+.photo-credit-camera{flex:0 0 23px;width:23px;height:23px;display:grid;place-items:center;border-radius:7px;background:rgba(255,255,255,.17);font-size:17px;line-height:1}
+.photo-credit-card__overlay strong,.photo-credit-card__overlay small{display:block;overflow-wrap:anywhere}
+.photo-credit-card__overlay strong{font-size:10px;line-height:1.25;font-weight:750;margin-bottom:2px}
+.photo-credit-card__overlay small{font-size:8px;line-height:1.35;color:#e0efed}
+.photo-credits-note{max-width:880px;margin:20px auto 0;text-align:center;font-size:10px;line-height:1.7;color:var(--muted)}
+.photo-credits-footer{margin:26px 0 0;text-align:center;color:var(--teal-dark);font-size:9px;letter-spacing:.24em;font-weight:700}
+.photo-credits-footer span{padding:0 8px;color:var(--coral)}
+/* Compact credits are visible on the actual photos throughout the site. */
+.photo-credit-host{}
+.photo-credit-badge{z-index:4;display:block;font:500 9px/1.35 var(--sans);color:#fff;background:rgba(3,35,45,.78);padding:5px 8px;overflow-wrap:anywhere;backdrop-filter:blur(5px)}
+.photo-credit-host--overlay>.photo-credit-badge{position:absolute;left:7px;bottom:7px;max-width:calc(100% - 14px);border-radius:7px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.photo-credit-host--inline>.photo-credit-badge{position:relative;margin:0;padding:6px 10px;color:#526e74;background:#eef6f2;font-size:9px}
+.hero-art .photo-credit-badge{font-size:8px;max-width:210px}
+.photo-credits-section .photo-credit-card__image{isolation:isolate}
+@media(max-width:1100px){.photo-credit-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.photo-credit-card__image{height:155px}}
+@media(max-width:760px){.photo-credits-section{padding:66px 0 54px}.photo-credit-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.photo-credit-card__image{height:140px}.photo-credit-group-title{font-size:10px;letter-spacing:.13em}.photo-credits-heading{margin-bottom:30px}}
+@media(max-width:520px){.photo-credit-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.photo-credit-card__image{height:150px}.photo-credit-card__overlay{padding:8px;gap:7px}.photo-credit-card__overlay strong{font-size:10px}.photo-credit-card__overlay small{font-size:8px}.photo-credit-camera{flex-basis:21px;width:21px;height:21px}.photo-credit-badge{font-size:8px;padding:4px 6px}.photo-credits-heading h2{font-size:40px}.photo-credits-heading>p:last-child{font-size:11px}.photo-credits-footer{font-size:8px;letter-spacing:.15em}}
+@media print{.photo-credits-section,.photo-credit-badge{display:none!important}}
+
+/* Compact photo credits stay on the existing image displays; no separate credits gallery. */
+.photo-credit-badge{z-index:8;display:flex;align-items:center;gap:6px;width:max-content;max-width:calc(100% - 14px);font:500 9px/1.3 var(--sans);color:#fff;background:rgba(3,35,45,.84);padding:5px 8px;overflow-wrap:anywhere;backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.16);border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.16)}
+.photo-credit-badge__text{display:block;min-width:0;overflow-wrap:anywhere}
+.photo-credit-camera{flex:0 0 13px;width:13px;height:13px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.photo-credit-host--overlay>.photo-credit-badge{position:absolute;left:8px;bottom:8px}
+.photo-credit-host--inline>.photo-credit-badge{position:relative;margin:0;padding:6px 10px;color:#526e74;background:#eef6f2;font-size:9px}
+/* The featured package price card overlaps the lower edge of its image; keep the credit above it. */
+.hero-image-slot>.photo-credit-badge{top:12px;bottom:auto;left:12px;max-width:calc(100% - 24px)}
+.hero-art .photo-credit-badge{font-size:8px;max-width:190px}
+@media(max-width:520px){.photo-credit-badge{font-size:8px;padding:4px 6px;gap:5px}.photo-credit-camera{flex-basis:12px;width:12px;height:12px}.hero-image-slot>.photo-credit-badge{top:9px;left:9px;max-width:calc(100% - 18px)}}
+
+
+/* Final inline photo-credit fixes: keep credits attached to their own image. */
+.extra-package-image-frame {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  background: #dcece7;
+  isolation: isolate;
+}
+.extra-package-image-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.extra-package-image-frame > .photo-credit-badge {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  max-width: calc(100% - 16px);
+}
+/* Keep the featured-photo credit fully inside the image and above the price card. */
+.hero-image-slot > .photo-credit-badge {
+  top: auto !important;
+  bottom: 158px !important;
+  left: 16px !important;
+  right: auto !important;
+  max-width: calc(100% - 32px) !important;
+  width: max-content;
+  z-index: 12;
+}
+.hero-image-slot > .photo-credit-badge__text {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  .extra-package-image-frame { height: 190px; }
+  .hero-image-slot > .photo-credit-badge {
+    bottom: 150px !important;
+    left: 10px !important;
+    max-width: calc(100% - 20px) !important;
+  }
+}
+@media (max-width: 420px) {
+  .hero-image-slot > .photo-credit-badge {
+    bottom: 146px !important;
+    font-size: 8px;
+    padding: 4px 6px;
+  }
+}
