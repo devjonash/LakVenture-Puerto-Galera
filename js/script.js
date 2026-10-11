@@ -154,10 +154,6 @@ const statusBox = document.querySelector('#form-status');
 const fallbackBox = document.querySelector('#email-fallback');
 const generatedMessage = document.querySelector('#generated-message');
 const toast = document.querySelector('#toast');
-const inquirySuccessDialog = document.querySelector('#inquiry-success-dialog');
-const continueToEmailButton = document.querySelector('#continue-to-email');
-const closeInquiryDialogButton = document.querySelector('#close-inquiry-dialog');
-let pendingInquiryMailto = '';
 let toastTimer;
 
 function showToast(message) {
@@ -268,27 +264,10 @@ if (form) {
     statusBox.hidden = false;
     statusBox.style.background = '#eaf7ef';
     statusBox.style.color = '#176c55';
-    statusBox.textContent = `Your inquiry email is prepared for ${INQUIRY_RECIPIENT}. Review it in your email application and press Send. This is not a confirmed reservation.`;
+    statusBox.textContent = `Your inquiry draft is ready. Your email application should open addressed to ${INQUIRY_RECIPIENT}. Please review and send the email there. This is not a confirmed reservation.`;
     fallbackBox.hidden = false;
-    pendingInquiryMailto = mailto;
-
-    if (inquirySuccessDialog && typeof inquirySuccessDialog.showModal === 'function') {
-      inquirySuccessDialog.showModal();
-    } else {
-      showToast(`Inquiry email prepared for ${INQUIRY_RECIPIENT}. Please open your email app and send it.`);
-    }
+    window.location.href = mailto;
   });
-}
-
-if (continueToEmailButton) {
-  continueToEmailButton.addEventListener('click', () => {
-    if (inquirySuccessDialog && inquirySuccessDialog.open) inquirySuccessDialog.close();
-    if (pendingInquiryMailto) window.location.href = pendingInquiryMailto;
-  });
-}
-
-if (closeInquiryDialogButton && inquirySuccessDialog) {
-  closeInquiryDialogButton.addEventListener('click', () => inquirySuccessDialog.close());
 }
 
 const copyButton = document.querySelector('#copy-inquiry');
@@ -332,8 +311,60 @@ if (checklist && progressText && progressBar) {
   updateChecklist();
 }
 
+// Direct itinerary printing (desktop and mobile): skip the custom preview modal.
+// The native browser print dialog opens directly from the user's button click.
 const printButton = document.querySelector('#print-itinerary');
-if (printButton) printButton.addEventListener('click', () => window.print());
+if (printButton) {
+  const cleanPrintRoot = () => {
+    document.querySelector('#itinerary-print-root')?.remove();
+    document.body.classList.remove('is-printing-itinerary');
+  };
+
+  printButton.addEventListener('click', () => {
+    const source = document.querySelector('#printable-itinerary');
+    if (!source) {
+      console.error('The itinerary section could not be found.');
+      return;
+    }
+
+    cleanPrintRoot();
+    const printRoot = document.createElement('main');
+    printRoot.id = 'itinerary-print-root';
+    printRoot.setAttribute('aria-label', 'Printable travel itinerary');
+
+    const title = document.createElement('h1');
+    title.className = 'itinerary-print-root__title';
+    title.textContent = 'Lakventure Tour & Travel — Two-Day Itinerary';
+
+    const note = document.createElement('p');
+    note.className = 'itinerary-print-root__note';
+    note.textContent = 'Schedule may change due to weather and sea conditions. Confirm final arrangements with Lakventure.';
+
+    printRoot.append(title, note, source.cloneNode(true));
+    document.body.appendChild(printRoot);
+    document.body.classList.add('is-printing-itinerary');
+
+    // Invoke synchronously within the click handler so mobile browsers retain
+    // the user gesture and can open their native print sheet immediately.
+    try {
+      window.print();
+    } catch (error) {
+      cleanPrintRoot();
+      console.error('Unable to open the print dialog.', error);
+    }
+  });
+
+  window.addEventListener('afterprint', cleanPrintRoot);
+  // Fallback cleanup for browsers that do not reliably fire afterprint.
+  if (typeof window.matchMedia === 'function') {
+    const printMedia = window.matchMedia('print');
+    const onPrintMediaChange = event => {
+      if (!event.matches) window.setTimeout(cleanPrintRoot, 300);
+    };
+    if (typeof printMedia.addEventListener === 'function') printMedia.addEventListener('change', onPrintMediaChange);
+    else if (typeof printMedia.addListener === 'function') printMedia.addListener(onPrintMediaChange);
+  }
+}
 
 const year = document.querySelector('#current-year');
 if (year) year.textContent = String(new Date().getFullYear());
