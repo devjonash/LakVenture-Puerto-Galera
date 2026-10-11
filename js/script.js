@@ -1,7 +1,7 @@
 'use strict';
 
-const INQUIRY_RECIPIENT = 'jonashclosaramirez10@gmail.com';
-const PUBLIC_BUSINESS_EMAIL = 'jonashclosaramirez10@gmail.com';
+const INQUIRY_RECIPIENT = 'iyahbartolome.10@gmail.com';
+const PUBLIC_BUSINESS_EMAIL = 'iyahbartolome.10@gmail.com';
 const MINIMUM_BOOKING_DAYS = 7;
 const MINIMUM_GUESTS = 4;
 
