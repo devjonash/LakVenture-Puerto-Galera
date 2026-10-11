@@ -405,3 +405,34 @@ void PUBLIC_BUSINESS_EMAIL;
     button.textContent = usingAlt ? 'Back to Google Maps view' : 'Map blank? Try alternate view';
   });
 })();
+
+
+// Small, readable photo-credit badges on existing image displays.
+(() => {
+  // Package-card photos need their own image frame so credits sit on the photo,
+  // rather than being appended after the entire package card content.
+  document.querySelectorAll('.extra-package-card > img[data-photo-credit]').forEach((image) => {
+    const frame = document.createElement('div');
+    frame.className = 'extra-package-image-frame';
+    image.parentNode.insertBefore(frame, image);
+    frame.appendChild(image);
+  });
+
+  const creditImages = document.querySelectorAll('img[data-photo-credit]');
+  const cameraIcon = '<svg class="photo-credit-camera" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h3l1.4-2h7.2l1.4 2h3A1.5 1.5 0 0 1 21.5 9v9A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9A1.5 1.5 0 0 1 4 7.5Z"/><circle cx="12" cy="13.5" r="3.4"/></svg>';
+  creditImages.forEach((image) => {
+    if (image.closest('.brand-mark')) return;
+    const credit = image.dataset.photoCredit;
+    if (!credit) return;
+    const host = image.parentElement;
+    if (!host || host.querySelector(':scope > .photo-credit-badge')) return;
+    const isImageFrame = host.matches('.hero-slide, .hero-image-slot, .about-image-slot, .destination-image, .package-image-slot, .gallery-tile, .extra-package-image-frame');
+    host.classList.add('photo-credit-host', isImageFrame ? 'photo-credit-host--overlay' : 'photo-credit-host--inline');
+    const badge = document.createElement('span');
+    badge.className = 'photo-credit-badge';
+    badge.innerHTML = cameraIcon + '<span class="photo-credit-badge__text"></span>';
+    badge.querySelector('.photo-credit-badge__text').textContent = `Photo credit: ${credit}`;
+    badge.setAttribute('aria-label', `Photo credit: ${credit}`);
+    host.appendChild(badge);
+  });
+})();
